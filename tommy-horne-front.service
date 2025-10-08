@@ -1,0 +1,32 @@
+[Unit]
+Description=Tommy Horne Frontend Service
+Documentation=https://github.com/your-username/tommy-horne-front
+After=network.target nginx.service
+Wants=nginx.service
+
+[Service]
+Type=oneshot
+RemainAfterExit=yes
+User=www-data
+Group=www-data
+WorkingDirectory=/var/www/tommy-horne-front
+ExecStart=/bin/true
+ExecReload=/bin/true
+ExecStop=/bin/true
+StandardOutput=journal
+StandardError=journal
+SyslogIdentifier=tommy-horne-front
+
+# Security settings
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/www/tommy-horne-front /var/log/tommy-horne-front
+
+# Restart policy
+Restart=on-failure
+RestartSec=5s
+
+[Install]
+WantedBy=multi-user.target
