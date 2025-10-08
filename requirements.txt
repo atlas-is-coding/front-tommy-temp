@@ -1,0 +1,13 @@
+# Python dependencies for Tommy Horne Frontend Deployment
+# No external dependencies required - uses only Python standard library
+
+# Optional dependencies for enhanced functionality:
+# paramiko>=2.7.0          # For SSH connections (if needed)
+# requests>=2.25.0         # For HTTP requests (if needed)
+# pyyaml>=5.4.0           # For YAML config support (if needed)
+# colorama>=0.4.4         # For cross-platform colored output (if needed)
+
+# Note: This script uses only Python standard library modules:
+# - os, sys, json, subprocess, argparse, logging
+# - pathlib, shutil, time, datetime
+# - typing (for type hints)

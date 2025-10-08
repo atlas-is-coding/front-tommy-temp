@@ -1,0 +1,36 @@
+{
+    "domain": "synaptrixtools.com",
+    "email": "",
+    "server_ip": "",
+    "ssh_user": "root",
+    "ssh_key": "",
+    "nginx_config": "nginx.conf",
+    "service_name": "tommy-horne-front",
+    "backup_enabled": true,
+    "ssl_enabled": true,
+    "firewall_enabled": true,
+    "monitoring_enabled": true,
+    "log_rotation_enabled": true,
+    "health_check_interval": 5,
+    "backup_retention_days": 30,
+    "nginx_worker_processes": "auto",
+    "nginx_worker_connections": 1024,
+    "ssl_protocols": "TLSv1.2 TLSv1.3",
+    "gzip_enabled": true,
+    "gzip_compression_level": 6,
+    "static_files_cache_duration": "1y",
+    "rate_limiting": {
+        "api_zone": "10m",
+        "api_rate": "10r/s",
+        "static_zone": "10m", 
+        "static_rate": "30r/s"
+    },
+    "security_headers": {
+        "x_frame_options": "SAMEORIGIN",
+        "x_content_type_options": "nosniff",
+        "x_xss_protection": "1; mode=block",
+        "referrer_policy": "strict-origin-when-cross-origin",
+        "strict_transport_security": "max-age=31536000; includeSubDomains"
+    },
+    "csp_policy": "default-src 'self'; script-src 'self' 'unsafe-inline' 'unsafe-eval' https://www.googletagmanager.com https://www.google-analytics.com https://www.gstatic.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https:; connect-src 'self' https:; frame-src 'self';"
+}

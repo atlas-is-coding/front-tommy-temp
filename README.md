@@ -8,8 +8,12 @@
 tommy-horne-front/
 ├── index.html              # Главная страница приложения
 ├── nginx.conf              # Конфигурация nginx с HTTPS
-├── deploy.sh               # Основной скрипт развертывания
+├── deploy.py               # Основной Python скрипт развертывания
+├── quick_deploy.py         # Упрощенный скрипт для быстрого развертывания
+├── deploy.sh               # Bash скрипт развертывания (legacy)
 ├── setup-ssl.sh            # Скрипт настройки SSL сертификата
+├── deploy_config.json      # Конфигурационный файл
+├── requirements.txt        # Python зависимости
 ├── tommy-horne-front.service # Systemd сервис
 ├── README.md               # Документация
 └── [статические файлы]     # CSS, JS, изображения и т.д.
@@ -35,28 +39,47 @@ cd /tmp/tommy-horne-front
 scp -r . root@your-server-ip:/tmp/tommy-horne-front/
 ```
 
-### 3. Запуск развертывания
+### 3. Python развертывание (рекомендуется)
 
+#### Быстрое развертывание:
 ```bash
 # Перейдите в директорию проекта
 cd /tmp/tommy-horne-front
 
+# Запустите быстрый скрипт
+sudo python3 quick_deploy.py --domain synaptrixtools.com --email your-email@example.com
+```
+
+#### Полное развертывание с конфигурацией:
+```bash
+# Отредактируйте конфигурацию (опционально)
+nano deploy_config.json
+
+# Запустите основной скрипт
+sudo python3 deploy.py --domain synaptrixtools.com --email your-email@example.com
+```
+
+#### Интерактивный режим:
+```bash
+sudo python3 deploy.py
+# Скрипт запросит домен и email
+```
+
+### 4. Bash развертывание (legacy)
+
+```bash
 # Сделайте скрипт исполняемым
 chmod +x deploy.sh setup-ssl.sh
 
 # Запустите развертывание
-sudo ./deploy.sh --domain your-domain.com --email your-email@example.com
+sudo ./deploy.sh --domain synaptrixtools.com --email your-email@example.com
 ```
 
-### 4. Альтернативный запуск (интерактивный)
+## Что делают скрипты развертывания
 
-```bash
-sudo ./deploy.sh
-# Скрипт запросит домен и email
-```
+### Python скрипты (рекомендуется):
 
-## Что делает скрипт развертывания
-
+#### `deploy.py` - Полный скрипт развертывания:
 1. **Обновление системы** - обновляет пакеты системы
 2. **Установка зависимостей** - устанавливает nginx, certbot и другие необходимые пакеты
 3. **Создание структуры директорий** - создает необходимые папки с правильными правами
@@ -68,6 +91,19 @@ sudo ./deploy.sh
 9. **Настройка логирования** - настраивает ротацию логов
 10. **Создание сервиса** - создает systemd сервис для автозапуска
 11. **Мониторинг** - настраивает базовый мониторинг
+12. **Конфигурация** - использует JSON конфигурацию для гибкой настройки
+
+#### `quick_deploy.py` - Упрощенный скрипт:
+- Быстрое развертывание без дополнительных настроек
+- Минимальная конфигурация
+- Идеально для тестирования и простых развертываний
+
+### Bash скрипты (legacy):
+
+#### `deploy.sh` - Bash версия полного развертывания:
+- Аналогичная функциональность Python версии
+- Использует bash команды
+- Менее гибкая конфигурация
 
 ## Конфигурация nginx
 
@@ -85,6 +121,41 @@ Nginx настроен с:
 - Сертификат обновляется автоматически через cron
 - Поддерживает wildcard домены
 - Настроена проверка обновления
+
+## Конфигурация
+
+### `deploy_config.json` - Основной конфигурационный файл:
+
+```json
+{
+    "domain": "synaptrixtools.com",
+    "email": "your-email@example.com",
+    "server_ip": "your-server-ip",
+    "ssl_enabled": true,
+    "firewall_enabled": true,
+    "monitoring_enabled": true,
+    "backup_enabled": true,
+    "rate_limiting": {
+        "api_rate": "10r/s",
+        "static_rate": "30r/s"
+    }
+}
+```
+
+### Командная строка Python скриптов:
+
+```bash
+# Основной скрипт с опциями
+python3 deploy.py --help
+
+# Быстрый скрипт
+python3 quick_deploy.py --help
+
+# Примеры использования
+python3 deploy.py --domain synaptrixtools.com --email admin@example.com
+python3 deploy.py --no-ssl --no-firewall
+python3 quick_deploy.py --domain synaptrixtools.com --email admin@example.com --no-ssl
+```
 
 ## Управление сервисом
 
